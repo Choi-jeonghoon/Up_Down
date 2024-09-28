@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
+import Colors from "../constants/colors";
 
 export const PrimaryButton = ({ children, onPress }) => {
   return (
@@ -14,7 +15,7 @@ export const PrimaryButton = ({ children, onPress }) => {
         onPress={onPress}
         // 안드로이드에서 물결 효과를 주기 위해 android_ripple 속성 사용
         // color: 물결 효과의 색상을 설정
-        android_ripple={{ color: "#640233" }}
+        android_ripple={{ color: Colors.primary600 }}
       >
         {/* 버튼의 텍스트 */}
         <Text style={styles.buttonText}>{children}</Text>
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   inContainer: {
-    backgroundColor: "#72063c",
+    backgroundColor: Colors.primary500,
     paddingVertical: 8,
     paddingHorizontal: 16,
     margin: 4,
