@@ -1,11 +1,7 @@
 import React from "react";
 import { Text, View, Pressable, StyleSheet } from "react-native";
 
-export const PrimaryButton = ({ children }) => {
-  const pressHandler = () => {
-    console.log("press");
-  };
-
+export const PrimaryButton = ({ children, onPress }) => {
   return (
     <View style={styles.outContainer}>
       {/* Pressable: 터치 가능한 영역을 만들기 위한 컴포넌트 */}
@@ -15,7 +11,7 @@ export const PrimaryButton = ({ children }) => {
           pressed ? [styles.inContainer, styles.pressed] : styles.inContainer
         }
         // 버튼이 클릭되었을 때의 이벤트 핸들러
-        onPress={pressHandler}
+        onPress={onPress}
         // 안드로이드에서 물결 효과를 주기 위해 android_ripple 속성 사용
         // color: 물결 효과의 색상을 설정
         android_ripple={{ color: "#640233" }}
