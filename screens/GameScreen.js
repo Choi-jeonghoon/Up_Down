@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { Title } from "../components/ui/Title";
-import Colors from "../constants/colors";
 import { NumberContainer } from "../components/game/NumberContainer";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
 import { Card } from "../components/ui/Card";
 import { InstructionText } from "../components/ui/InstructionText";
+import { Ionicons } from "@expo/vector-icons";
 
 // min과 max 사이의 숫자 중, exclude 숫자를 제외한 랜덤 숫자를 생성하는 함수
 const generateRandomBetween = (min, max, exclude) => {
@@ -97,14 +97,20 @@ export const GameScreen = ({ userNumber, onGameOver }) => {
       <Title>GameScreen</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
-        <InstructionText>Higher or lower?</InstructionText>
-        <View>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
-            -
-          </PrimaryButton>
-          <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
-            +
-          </PrimaryButton>
+        <InstructionText style={styles.instructionText}>
+          Higher or lower?
+        </InstructionText>
+        <View style={styles.buttonsContaier}>
+          <View style={styles.buttonContaier}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+              <Ionicons name="remove" size={20} color="white" />
+            </PrimaryButton>
+          </View>
+          <View style={styles.buttonContaier}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
+              <Ionicons name="add" size={20} color="white" />
+            </PrimaryButton>
+          </View>
         </View>
       </Card>
       <View>{/* <Text>Log Rounds</Text> */}</View>
@@ -117,13 +123,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 12,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: Colors.accent500,
-    textAlign: "center",
-    borderWidth: 2,
-    borderColor: Colors.accent500,
-    padding: 12,
+  instructionText: { marginBottom: 20 },
+  buttonsContaier: {
+    flexDirection: "row",
+  },
+  buttonContaier: {
+    flex: 1,
   },
 });
