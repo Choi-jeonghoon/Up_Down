@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Alert, StyleSheet, Text, View } from "react-native";
 import { Title } from "../components/ui/Title";
 import Colors from "../constants/colors";
 import { NumberContainer } from "../components/game/NumberContainer";
 import { PrimaryButton } from "../components/ui/PrimaryButton";
+import { Card } from "../components/ui/Card";
+import { InstructionText } from "../components/ui/InstructionText";
 
 // min과 max 사이의 숫자 중, exclude 숫자를 제외한 랜덤 숫자를 생성하는 함수
 const generateRandomBetween = (min, max, exclude) => {
@@ -32,11 +34,28 @@ let minBoundary = 1;
 let maxBoundary = 100;
 
 export const GameScreen = ({ userNumber, onGameOver }) => {
-  const initialGuess = generateRandomBetween(
-    minBoundary,
-    maxBoundary,
-    userNumber
+  //   const initialGuess = generateRandomBetween(
+  //     minBoundary,
+  //     maxBoundary,
+  //     userNumber
+  //   );
+
+  /*
+   @Memo
+    const initialGuess = generateRandomBetween(1, 100, userNumber);
+
+    장점: 코드가 단순하고 명료합니다. minBoundary와 maxBoundary가 이미 고정된 값이므로, 코드가 더 직관적입니다.
+    단점: 만약 추후에 minBoundary와 maxBoundary 값이 바뀌어야 한다면, 코드의 여러 곳에서 수정을 해야 할 수 있습니다. 코드의 확장성이나 유지보수 측면에서 불리할 수 있습니다.
+
+    장점: useMemo를 사용하면 컴포넌트가 다시 렌더링될 때 불필요한 재계산을 방지하고, userNumber 값이 변경될 때만 generateRandomBetween 함수가 호출됩니다. 이 방식은 성능 최적화와 효율적인 리렌더링을 지원합니다.
+    단점: 사용하지 않아도 될 때에도 불필요한 복잡성이 추가될 수 있습니다. 즉, useMemo는 성능 최적화가 필요한 경우에만 사용하는 것이 좋습니다. 단순한 초기 값 설정에는 오버헤드일 수 있습니다.
+  */
+
+  const initialGuess = useMemo(
+    () => generateRandomBetween(minBoundary, maxBoundary, userNumber),
+    [userNumber]
   );
+
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   useEffect(() => {
@@ -77,8 +96,8 @@ export const GameScreen = ({ userNumber, onGameOver }) => {
     <View style={styles.screen}>
       <Title>GameScreen</Title>
       <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Title>Higher or lower?</Title>
+      <Card>
+        <InstructionText>Higher or lower?</InstructionText>
         <View>
           <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
             -
@@ -87,7 +106,7 @@ export const GameScreen = ({ userNumber, onGameOver }) => {
             +
           </PrimaryButton>
         </View>
-      </View>
+      </Card>
       <View>{/* <Text>Log Rounds</Text> */}</View>
     </View>
   );
