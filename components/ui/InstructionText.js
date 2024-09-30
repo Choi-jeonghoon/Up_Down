@@ -8,6 +8,7 @@ export const InstructionText = ({ children, style }) => {
 
 const styles = StyleSheet.create({
   inputContaierText: {
+    fontFamily: "open-sans",
     color: Colors.accent500,
     fontSize: 20,
   },
