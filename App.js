@@ -11,8 +11,9 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import { GameScreen } from "./screens/GameScreen";
-import Colors from "./constants/colors";
+
 import { GameOverScreen } from "./screens/GameOverScreen";
+import Colors from "./constants/Colors";
 
 // 스플래시 화면 자동 숨김 방지
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +22,7 @@ export default function App() {
   const [userNumber, setUserNumber] = useState();
   const [gamIsOver, setGameIsOver] = useState(false);
   const [appIsReady, setAppIsReady] = useState(false);
+  const [guessRounds, setGuessRounds] = useState();
   //const [isLoading, setIsLoading] = useState(true); // 로딩 상태
 
   const [fontsLoaded] = useFonts({
@@ -66,8 +68,14 @@ export default function App() {
     setGameIsOver(false); // 게임 시작할 때는 게임이 끝나지 않음
   };
 
-  const GameOverHandler = () => {
+  const GameOverHandler = (numberOfRounds) => {
     setGameIsOver(true); // 게임이 끝나면 true로 설정
+    setGuessRounds(numberOfRounds);
+  };
+
+  const startNewGameHadnler = () => {
+    setUserNumber(null);
+    setGuessRounds(0);
   };
 
   let screen = <StartGameScreen onPickNumber={pickNumberHandler} />;
@@ -78,7 +86,13 @@ export default function App() {
     );
   }
   if (gamIsOver && userNumber) {
-    screen = <GameOverScreen />;
+    screen = (
+      <GameOverScreen
+        userNumber={userNumber}
+        roundsNumber={guessRounds}
+        onStartNewGame={startNewGameHadnler}
+      />
+    );
   }
 
   return (
