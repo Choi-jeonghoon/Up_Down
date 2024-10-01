@@ -14,6 +14,7 @@ import { GameScreen } from "./screens/GameScreen";
 
 import { GameOverScreen } from "./screens/GameOverScreen";
 import Colors from "./constants/Colors";
+import { StatusBar } from "expo-status-bar";
 
 // 스플래시 화면 자동 숨김 방지
 SplashScreen.preventAutoHideAsync();
@@ -96,21 +97,24 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary100, Colors.primary200]}
-      style={styles.rootScreen}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        resizeMode="cover"
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary100, Colors.primary200]}
         style={styles.rootScreen}
-        imageStyle={styles.backFroundImage}
       >
-        <SafeAreaView style={styles.rootScreen} onLayout={onLayoutRootView}>
-          {screen}
-        </SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          resizeMode="cover"
+          style={styles.rootScreen}
+          imageStyle={styles.backFroundImage}
+        >
+          <SafeAreaView style={styles.rootScreen} onLayout={onLayoutRootView}>
+            {screen}
+          </SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
